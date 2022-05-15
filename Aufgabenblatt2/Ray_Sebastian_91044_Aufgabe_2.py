@@ -38,11 +38,11 @@ def rescaleFrame(frame, scale=0.50):                                    #Adjust 
 
 def loadNewPicture():
     #Opens a new directory
-    imgLoad = filedialog.askopenfilename(initialdir="/04_Bildverarbeitung/Praktikum/Aufgabenblatt2", title="Select A File", filetypes=(("png files", "*.png"),("jpg files", "*.jpg")))
+    imgLoad = filedialog.askopenfilename(initialdir="/04_BildVer/Praktikum/Aufgabenblatt2", title="Select A File", filetypes=(("png files", "*.png"),("jpg files", "*.jpg")))
     print("New image loaded!")    
     cv.namedWindow(windowName)                          #creates a window that can be used as a placeholder for images
     img1 = cv.imread(imgLoad)                           #loads an image from an specified file. Second Argument is an flag 
-    img = rescaleFrame(img1,0.7)
+    img = rescaleFrame(img1,1)
     return img
 
 
