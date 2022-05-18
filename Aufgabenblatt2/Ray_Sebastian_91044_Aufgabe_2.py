@@ -55,7 +55,7 @@ def draw_circle(event,x,y,flags,param):             #(event,x-coordinate,y-coord
     if event == cv.EVENT_LBUTTONUP:                 #mouse events. 
         cv.circle(img,(x,y),3,(0,0,255),-1)         #draw a circle.(img where drawn,centre,radius,color,thickness)
         
-        if len(polyCoordinates) < 20:
+        if len(polyCoordinates) < 40:
             print("x=",x," y=",y)
             polyCoordinates = np.append(polyCoordinates,[[x,y]], axis=0)    #Puts the points into an array
             if len(polyCoordinates) < 2:
@@ -100,7 +100,7 @@ while(1):
             print("=> RGB shape: ",cutout.shape)
             #----------------------------------------------------------------------------------------------------------------------
 
-            rgba = cv.cvtColor(cutout, cv.COLOR_BGR2BGRA)       #Converts an image from one color space to another. Insert Alpha-Channel
+            rgba = cv.cvtColor(cutout, cv.COLOR_RGB2RGBA)       #Converts an image from one color space to another. Insert Alpha-Channel
             rgba[:,:,3]=mask                                    #Copies everything from right to left (rgba[0:464,0:887,3]=mask)
             #cv.imshow('rgba',rgba)                             #shows the cutout in the original Image size. With the Alpha-Channel
             print("=> RGBA shape: ",rgba.shape)

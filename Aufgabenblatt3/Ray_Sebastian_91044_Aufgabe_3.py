@@ -47,11 +47,11 @@ def loadNewPicture():
     
 
 img = loadNewPicture()
-img = cv.cvtColor(img, cv.COLOR_BGR2BGRA)
+img = cv.cvtColor(img, cv.COLOR_RGB2RGBA)
 template = loadNewPicture()
 rows,cols,_=template.shape
-# print(">",img.shape)
-# print(">",template.shape)
+print(">",img.shape)
+print(">",template.shape)
 
 
 def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,y-coordiante,flags,optional)
@@ -59,7 +59,15 @@ def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,
         imgCopy = img.copy()
         
         # I want to put logo on top-left corner, So I create a ROI (Region of Interest)
-        roi = imgCopy[y:(rows+y), x:(cols+x)]       
+        #roi = imgCopy[y:(rows+y), x:(cols+x)]       
+        if rows % 2 ==0 and cols % 2 ==0:
+            roi=imgCopy[y-rows//2:y+rows//2,x-cols//2:x+cols//2]
+        elif rows %2 == 0 and cols % 2!=0:
+            roi=imgCopy[y-rows//2:y+rows//2,x-cols//2-1:x+cols//2]
+        elif rows %2 != 0 and cols % 2 ==0:
+            roi=imgCopy[y-rows//2-1:y+rows//2,x-cols//2:x+cols//2]
+        else:
+            roi=imgCopy[y-rows//2-1:y+rows//2,x-cols//2-1:x+cols//2]
 
         # Now create a mask of logo and create its inverse mask also
         mask=template[...,3]
@@ -72,7 +80,15 @@ def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,
         # Put logo in ROI and modify the main image
         dst =cv.add(img1_bg,img2_fg)
         
-        imgCopy[y:(rows+y), x:(cols+x)] = dst
+        #imgCopy[y:(rows+y), x:(cols+x)] = dst
+        if rows % 2 ==0 and cols % 2 ==0:
+            imgCopy[y-rows//2:y+rows//2,x-cols//2:x+cols//2]=dst
+        elif rows %2 == 0 and cols % 2!=0:
+            imgCopy[y-rows//2:y+rows//2,x-cols//2-1:x+cols//2]=dst
+        elif rows %2 != 0 and cols % 2 ==0:
+            imgCopy[y-rows//2-1:y+rows//2,x-cols//2:x+cols//2]=dst
+        else:
+            imgCopy[y-rows//2-1:y+rows//2,x-cols//2-1:x+cols//2]=dst
 
         res = cv.matchTemplate(roi,template,cv.TM_SQDIFF_NORMED)    
         imgCopy = cv.putText(imgCopy,str(res),(10,40),cv.FONT_HERSHEY_COMPLEX,1,(0,0,0),2,cv.LINE_AA)
