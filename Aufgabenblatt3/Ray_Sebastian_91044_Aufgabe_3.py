@@ -49,8 +49,9 @@ def loadNewPicture():
 img = loadNewPicture()
 img = cv.cvtColor(img, cv.COLOR_BGR2BGRA)
 template = loadNewPicture()
-#templateGray = cv.cvtColor(template,cv.COLOR_BGR2GRAY)
 rows,cols,_=template.shape
+# print(">",img.shape)
+# print(">",template.shape)
 
 
 def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,y-coordiante,flags,optional)
@@ -58,8 +59,8 @@ def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,
         imgCopy = img.copy()
         
         # I want to put logo on top-left corner, So I create a ROI (Region of Interest)
-        roi = imgCopy[y:(rows+y), x:(cols+x)]
-        
+        roi = imgCopy[y:(rows+y), x:(cols+x)]       
+
         # Now create a mask of logo and create its inverse mask also
         mask=template[...,3]
         #_, mask = cv.threshold(templateGray, 0, 255, cv.THRESH_TRIANGLE)#mask=template[...,3]
@@ -72,11 +73,9 @@ def moveImgOverPicture(event,x,y,flags,param):             #(event,x-coordinate,
         dst =cv.add(img1_bg,img2_fg)
         
         imgCopy[y:(rows+y), x:(cols+x)] = dst
-        
-        res = cv.matchTemplate(roi,template,cv.TM_SQDIFF_NORMED)    
-        org = (30,30)
-        imgCopy = cv.putText(imgCopy,str(res),org,cv.FONT_HERSHEY_COMPLEX,1,(0,0,255),1,cv.LINE_AA)
 
+        res = cv.matchTemplate(roi,template,cv.TM_SQDIFF_NORMED)    
+        imgCopy = cv.putText(imgCopy,str(res),(10,40),cv.FONT_HERSHEY_COMPLEX,1,(0,0,0),2,cv.LINE_AA)
         cv.imshow(windowName, imgCopy)
         
 

@@ -53,7 +53,7 @@ img = loadNewPicture()
 def draw_circle(event,x,y,flags,param):             #(event,x-coordinate,y-coordiante,flags,optional)
     global polyCoordinates
     if event == cv.EVENT_LBUTTONUP:                 #mouse events. 
-        cv.circle(img,(x,y),3,(0,0,255),-1)         #draw a circle.(img where drawn,centre,radius,color,thickness,?,?)
+        cv.circle(img,(x,y),3,(0,0,255),-1)         #draw a circle.(img where drawn,centre,radius,color,thickness)
         
         if len(polyCoordinates) < 20:
             print("x=",x," y=",y)
@@ -90,6 +90,7 @@ while(1):
             mask = np.zeros(img.shape[:2], dtype='uint8')       #Blank Black Picture
             #cv.imshow('mask',mask)                             #shows a blank black Image
             print("=> Mask shape: ",mask.shape)
+            print("-->", polyCoordinates)
             cv.fillPoly(mask, [polyCoordinates], (255,0,0,0))                       #Fills the area bounded by the polygon (Image,PolygonArray,color)
             #cv.imshow('fillPoly',cv.fillPoly(mask, [polyCoordinates], (150,0,0)))  #shows the polygon in greyscale
             
